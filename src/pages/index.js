@@ -1,12 +1,15 @@
 import React from "react"
 import { Link } from "gatsby"
 import Layout from "../components/Layout"
-import SimleHero from "../components/SimpleHero"
 import Banner from "../components/Banner"
 import About from "../components/Home/About"
-export default () => (
+import Services from "../components/Home/Services"
+import StyledHero from "../components/StyledHero"
+import { graphql } from "gatsby"
+
+export default ({ data }) => (
   <Layout>
-    <SimleHero>
+    <StyledHero home="true" img={data.defaultBcg.childImageSharp.fluid}>
       <Banner
         title="continue exploring"
         info="“The gladdest moment in human life is a departure into unknown lands.” – Sir Richard Burton"
@@ -15,7 +18,20 @@ export default () => (
           explore tours
         </Link>
       </Banner>
-    </SimleHero>
+    </StyledHero>
     <About />
+    <Services />
   </Layout>
 )
+
+export const query = graphql`
+  query {
+    defaultBcg: file(relativePath: { eq: "defaultBcg.jpeg" }) {
+      childImageSharp {
+        fluid(quality: 90, maxWidth: 4160) {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+  }
+`
